@@ -1,0 +1,19 @@
+{
+  "name": "drinking-bingo",
+  "version": "1.0.0",
+  "description": "A drinking game that pairs well with light entertainment",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cursorial/drinking-bingo.git"
+  },
+  "author": "Michael Curry",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/cursorial/drinking-bingo/issues"
+  },
+  "homepage": "https://github.com/cursorial/drinking-bingo#readme"
+}
