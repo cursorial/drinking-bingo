@@ -25,7 +25,8 @@
     "express": "^4.9.8",
     "next": "^6.1.1",
     "react": "^16.4.2",
-    "react-dom": "^16.4.2"
+    "react-dom": "^16.4.2",
+    "standard": "^11.0.1"
   },
   "engines": {
     "node": "8.11.4",
