@@ -25,7 +25,7 @@ app
         const result = await client.query('SELECT * FROM test_table')
         res.setHeader('Content-type', 'application/json')
         res.send(JSON.stringify({
-          rows: result.rows
+          data: result.rows
         }))
       } catch (err) {
         res.send(JSON.stringify({
