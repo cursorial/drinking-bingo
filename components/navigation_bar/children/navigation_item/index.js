@@ -3,9 +3,9 @@ import Link from 'next/link'
 
 export default class NavigationItem extends React.Component {
   render () {
-    const {key, url, name} = this.props
+    const {url, name} = this.props
     return (
-      <li key={key}>
+      <li>
         <Link href={url}>
           <a>{name}</a>
         </Link>
