@@ -4,6 +4,11 @@ const port = process.env.PORT || 3000
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()
+const { Pool } = require('pg')
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: true
+})
 
 app
   .prepare()
@@ -12,6 +17,21 @@ app
 
     server.get('*', (req, res) => {
       return handle(req, res)
+    })
+
+    server.post('/db', async (req, res) => {
+      try {
+        const client = await pool.connect()
+        const result = await client.query('SELECT * FROM test_table')
+        res.setHeader('Content-type', 'application/json')
+        res.send(JSON.stringify({
+          data: result
+        }))
+      } catch (err) {
+        res.send(JSON.stringify({
+          error: err
+        }))
+      }
     })
 
     server.listen(port, (err) => {
