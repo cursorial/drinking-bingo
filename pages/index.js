@@ -18,7 +18,6 @@ export default class Index extends React.Component {
 
   componentDidMount () {
     axios.post('/shows_index')
-      .then((response) => { response.json() })
       .then((data) => {
         this.setState({
           shows: data
@@ -36,12 +35,11 @@ export default class Index extends React.Component {
     let { shows, showName } = this.state
     axios.post('/create_show', {
       showName: showName
-    }).then((response) => { response.json() })
-      .then((data) => {
-        this.setState({
-          showAddedStatus: data
-        })
+    }).then((data) => {
+      this.setState({
+        showAddedStatus: data
       })
+    })
     shows.push(showName)
     this.setState({
       shows: shows
@@ -61,7 +59,7 @@ export default class Index extends React.Component {
       <ul>
         {this.state.shows.map((show) => {
           return (
-            <li>{show}</li>
+            <li>{show.name}</li>
           )
         })}
       </ul>
