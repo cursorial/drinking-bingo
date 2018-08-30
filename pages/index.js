@@ -19,7 +19,9 @@ export default class Index extends React.Component {
   componentDidMount () {
     axios.post('/shows_index')
       .then((response) => {
-        console.log(response)
+        this.setState({
+          shows: response.data.shows
+        })
       })
   }
 
@@ -33,9 +35,9 @@ export default class Index extends React.Component {
     let { shows, showName } = this.state
     axios.post('/create_show', {
       showName: showName
-    }).then((data) => {
+    }).then((response) => {
       this.setState({
-        showAddedStatus: data
+        showAddedStatus: response.data.success
       })
     })
     shows.push(showName)
