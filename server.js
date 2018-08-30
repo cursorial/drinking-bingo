@@ -46,9 +46,7 @@ app
 
     server.post('/create_show', async (req, res) => {
       let showName = req.param('showName', null)
-      console.log(showName)
-      const result = await queryDatabase('INSERT INTO show (name) VALUES($1);', showName)
-      console.log(result)
+      const result = await queryDatabase('INSERT INTO show (name) VALUES($1);', [showName])
       sendDataToClient(res, {
         success: result.rows
       })
@@ -56,7 +54,7 @@ app
 
     server.post('/delete_show', async (req, res) => {
       let showId = req.param('showId', null)
-      const result = await queryDatabase('DROP * FROM show WHERE id = $1', showId)
+      const result = await queryDatabase('DROP * FROM show WHERE id = $1', [showId])
       sendDataToClient(res, result.rows)
     })
 
@@ -69,7 +67,7 @@ app
 
     server.post('/seasons_index', async (req, res) => {
       let selectedShow = req.param('show', null)
-      const result = await queryDatabase('SELECT * FROM season WHERE show_id = $1', selectedShow)
+      const result = await queryDatabase('SELECT * FROM season WHERE show_id = $1', [selectedShow])
       sendDataToClient(res, result.rows)
     })
 
@@ -82,7 +80,7 @@ app
 
     server.post('/episodes_index', async (req, res) => {
       let selectedSeason = req.param('season', null)
-      const result = await queryDatabase('SELECT * FROM episode WHERE season_id = $1', selectedSeason)
+      const result = await queryDatabase('SELECT * FROM episode WHERE season_id = $1', [selectedSeason])
       sendDataToClient(res, result.rows)
     })
 
@@ -96,7 +94,7 @@ app
 
     server.post('/items_index', async (req, res) => {
       let selectedEpisode = req.param('item', null)
-      const result = await queryDatabase('SELECT * FROM item WHERE episode_id = $1', selectedEpisode)
+      const result = await queryDatabase('SELECT * FROM item WHERE episode_id = $1', [selectedEpisode])
       sendDataToClient(res, result.rows)
     })
 
