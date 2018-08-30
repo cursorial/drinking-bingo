@@ -41,6 +41,7 @@ export default class Index extends React.Component {
       })
       this.setState({
         showAddedStatus: response.data.success,
+        showName: '',
         shows: shows
       })
     })
@@ -69,7 +70,7 @@ export default class Index extends React.Component {
   renderAddShowForm () {
     return (
       <div>
-        <input type='text' onChange={this.handleShowNameChange} />
+        <input type='text' onChange={this.handleShowNameChange} value={this.state.showName} />
         <button onClick={this.handleAddShowClick}>Add Show</button>
       </div>
     )
