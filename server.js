@@ -23,9 +23,7 @@ async function queryDatabase (query, params) {
 
 function sendDataToClient (res, data) {
   res.setHeader('Content-type', 'application/json')
-  res.send(JSON.stringify({
-    data: data
-  }))
+  res.send(JSON.stringify(data))
 }
 
 app
@@ -41,13 +39,17 @@ app
 
     server.post('/shows_index', async (req, res) => {
       const result = await queryDatabase('SELECT * FROM show;')
-      sendDataToClient(res, result.rows)
+      sendDataToClient(res, {
+        shows: result.rows
+      })
     })
 
     server.post('/create_show', async (req, res) => {
       let showName = req.param('showName', null)
       const result = await queryDatabase('INSERT INTO show (name) VALUES($1);', showName)
-      sendDataToClient(res, result.rows)
+      sendDataToClient(res, {
+        success: result
+      })
     })
 
     server.post('/delete_show', async (req, res) => {
