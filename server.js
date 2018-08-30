@@ -10,28 +10,97 @@ const pool = new Pool({
   ssl: true
 })
 
+async function queryDatabase (query, params) {
+  try {
+    const client = await pool.connect()
+    const result = await client.query(query, params)
+    return result
+  } catch (err) {
+    return err
+  }
+}
+
+function sendDataToClient (res, data) {
+  res.setHeader('Content-type', 'application/json')
+  res.send(JSON.stringify({
+    data: data
+  }))
+}
+
 app
   .prepare()
   .then(() => {
     const server = express()
 
+    server.use(express.bodyParser())
+
     server.get('*', (req, res) => {
       return handle(req, res)
     })
 
-    server.post('/db', async (req, res) => {
-      try {
-        const client = await pool.connect()
-        const result = await client.query('SELECT * FROM test_table')
-        res.setHeader('Content-type', 'application/json')
-        res.send(JSON.stringify({
-          data: result.rows
-        }))
-      } catch (err) {
-        res.send(JSON.stringify({
-          error: err
-        }))
-      }
+    server.post('/shows_index', async (req, res) => {
+      const result = await queryDatabase('SELECT * FROM shows')
+      sendDataToClient(res, result.rows)
+    })
+
+    server.post('/create_show', async (req, res) => {
+      let showName = req.param('showName', null)
+      const result = await queryDatabase('INSERT INTO show (name) VALUES($1)', showName)
+      sendDataToClient(res, result.rows)
+    })
+
+    server.post('/delete_show', async (req, res) => {
+      let showId = req.param('showId', null)
+      const result = await queryDatabase('DROP * FROM show WHERE id = $1', showId)
+      sendDataToClient(res, result.rows)
+    })
+
+    server.post('/update_show', async (req, res) => {
+      let showId = req.param('showId', null)
+      let showName = req.param('showName', null)
+      const result = await queryDatabase('UPDATE show SET show_name = $2 WHERE id = $1', [showId, showName])
+      sendDataToClient(res, result.rows)
+    })
+
+    server.post('/seasons_index', async (req, res) => {
+      let selectedShow = req.param('show', null)
+      const result = await queryDatabase('SELECT * FROM season WHERE show_id = $1', selectedShow)
+      sendDataToClient(res, result.rows)
+    })
+
+    server.post('/create_season', async (req, res) => {
+      let seasonNumber = req.param('seasonNumber', null)
+      let showId = req.param('showId', null)
+      const result = await queryDatabase('INSERT INTO season (season_number, show_id) VALUES($1, $2)', [seasonNumber, showId])
+      sendDataToClient(res, result.rows)
+    })
+
+    server.post('/episodes_index', async (req, res) => {
+      let selectedSeason = req.param('season', null)
+      const result = await queryDatabase('SELECT * FROM episode WHERE season_id = $1', selectedSeason)
+      sendDataToClient(res, result.rows)
+    })
+
+    server.post('/create_episode', async (req, res) => {
+      let episodeName = req.param('episodeName', null)
+      let episodeNumber = req.param('episodeNumber', null)
+      let seasonId = req.param('seasonId', null)
+      const result = await queryDatabase('INSERT INTO episode (episode_name, episode_number, season_id) VALUES($1, $2, $3)', [episodeName, episodeNumber, seasonId])
+      sendDataToClient(res, result.rows)
+    })
+
+    server.post('/items_index', async (req, res) => {
+      let selectedEpisode = req.param('item', null)
+      const result = await queryDatabase('SELECT * FROM item WHERE episode_id = $1', selectedEpisode)
+      sendDataToClient(res, result.rows)
+    })
+
+    server.post('/create_item', async (req, res) => {
+      let event = req.param('event', null)
+      let action = req.param('action', null)
+      let episodeId = req.param('episodeId', null)
+      const result = await queryDatabase('INSERT INTO item (event, action, episode_id) VALUES($1, $2, $3)', [event, action, episodeId])
+      sendDataToClient(res, result.rows)
     })
 
     server.listen(port, (err) => {
