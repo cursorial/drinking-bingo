@@ -54,7 +54,7 @@ app
 
     server.post('/delete_show', async (req, res) => {
       let showId = req.param('showId', null)
-      const result = await queryDatabase('DROP * FROM show WHERE id = $1', [showId])
+      const result = await queryDatabase('DELETE FROM show WHERE id = $1', [showId])
       sendDataToClient(res, result.rows)
     })
 

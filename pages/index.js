@@ -1,5 +1,6 @@
 import React from 'react'
 import NavigationBar from '../components/navigation_bar'
+import Link from 'next/link'
 import axios from 'axios'
 
 export default class Index extends React.Component {
@@ -32,18 +33,17 @@ export default class Index extends React.Component {
   }
 
   handleAddShowClick () {
-    let { shows, showName } = this.state
+    let { showName } = this.state
     axios.post('/create_show', {
       showName: showName
     }).then((response) => {
-      shows.push({
-        name: showName
-      })
-      this.setState({
-        showAddedStatus: response.data.success,
-        showName: '',
-        shows: shows
-      })
+      axios.post('/shows_index')
+        .then((response) => {
+          this.setState({
+            shows: response.data.shows,
+            showName: ''
+          })
+        })
     })
   }
 
@@ -60,7 +60,11 @@ export default class Index extends React.Component {
       <ul>
         {this.state.shows.map((show) => {
           return (
-            <li>{show.name}</li>
+            <li>
+              <Link href={{ pathname: '/shows', query: { id: show.id } }} >
+                <a>{show.name}</a>
+              </Link>
+            </li>
           )
         })}
       </ul>
