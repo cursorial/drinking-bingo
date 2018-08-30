@@ -18,9 +18,9 @@ export default class Index extends React.Component {
 
   componentDidMount () {
     axios.post('/shows_index')
-      .then((data) => {
+      .then((response) => {
         this.setState({
-          shows: data
+          shows: response.data
         })
       })
   }
