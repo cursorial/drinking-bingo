@@ -46,7 +46,9 @@ app
 
     server.post('/create_show', async (req, res) => {
       let showName = req.param('showName', null)
+      console.log(showName)
       const result = await queryDatabase('INSERT INTO show (name) VALUES($1);', showName)
+      console.log(result)
       sendDataToClient(res, {
         success: result.rows
       })
