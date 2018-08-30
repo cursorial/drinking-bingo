@@ -1,4 +1,5 @@
 const express = require('express')
+const bodyParser = require('body-parser')
 const next = require('next')
 const port = process.env.PORT || 3000
 const dev = process.env.NODE_ENV !== 'production'
@@ -32,7 +33,7 @@ app
   .then(() => {
     const server = express()
 
-    server.use(express.bodyParser())
+    server.use(bodyParser.json())
 
     server.get('*', (req, res) => {
       return handle(req, res)

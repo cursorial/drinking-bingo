@@ -23,6 +23,7 @@
   "homepage": "https://github.com/cursorial/drinking-bingo#readme",
   "dependencies": {
     "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
     "express": "^4.9.8",
     "next": "^6.1.1",
     "pg": "^7.4.3",
