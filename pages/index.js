@@ -61,7 +61,7 @@ export default class Index extends React.Component {
       <ul>
         {this.state.shows.map((show) => {
           return (
-            <li>Show</li>
+            <li>{show}</li>
           )
         })}
       </ul>
