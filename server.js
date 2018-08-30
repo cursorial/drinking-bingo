@@ -48,7 +48,7 @@ app
       let showName = req.param('showName', null)
       const result = await queryDatabase('INSERT INTO show (name) VALUES($1);', showName)
       sendDataToClient(res, {
-        success: result
+        success: result.rows
       })
     })
 
