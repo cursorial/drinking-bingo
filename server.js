@@ -40,13 +40,13 @@ app
     })
 
     server.post('/shows_index', async (req, res) => {
-      const result = await queryDatabase('SELECT * FROM shows')
+      const result = await queryDatabase('SELECT * FROM show;')
       sendDataToClient(res, result.rows)
     })
 
     server.post('/create_show', async (req, res) => {
       let showName = req.param('showName', null)
-      const result = await queryDatabase('INSERT INTO show (name) VALUES($1)', showName)
+      const result = await queryDatabase('INSERT INTO show (name) VALUES($1);', showName)
       sendDataToClient(res, result.rows)
     })
 
