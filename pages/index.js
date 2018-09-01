@@ -61,7 +61,7 @@ export default class Index extends React.Component {
         {this.state.shows.map((show) => {
           return (
             <li>
-              <Link href={{ pathname: '/shows', query: { id: show.id } }} >
+              <Link href={{ pathname: '/shows', query: { id: show.id, name: show.name } }} >
                 <a>{show.name}</a>
               </Link>
             </li>
