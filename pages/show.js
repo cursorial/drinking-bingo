@@ -28,7 +28,8 @@ export default class Show extends React.Component {
 
   handleAddSeasonClick (event) {
     axios.post('/create_season', {
-      seasonNumber: this.state.seasonNumber
+      seasonNumber: this.state.seasonNumber,
+      showId: this.props.url.query.id
     }).then((response) => {
       axios.post('/seasons_index', {
         showId: this.props.url.query.id
