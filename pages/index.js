@@ -9,8 +9,7 @@ export default class Index extends React.Component {
 
     this.state = {
       shows: [],
-      showName: '',
-      showAddedStatus: ''
+      showName: ''
     }
 
     this.handleShowNameChange = this.handleShowNameChange.bind(this)
@@ -33,9 +32,8 @@ export default class Index extends React.Component {
   }
 
   handleAddShowClick () {
-    let { showName } = this.state
     axios.post('/create_show', {
-      showName: showName
+      showName: this.state.showName
     }).then((response) => {
       axios.post('/shows_index')
         .then((response) => {
@@ -47,21 +45,13 @@ export default class Index extends React.Component {
     })
   }
 
-  renderShowAddedStatus () {
-    return (
-      <div>
-        {this.state.showAddedStatus}
-      </div>
-    )
-  }
-
   renderShows () {
     return (
       <ul>
         {this.state.shows.map((show) => {
           return (
             <li>
-              <Link href={{ pathname: '/shows', query: { id: show.id, name: show.name } }} >
+              <Link href={{ pathname: '/show', query: { id: show.id, name: show.name } }} >
                 <a>{show.name}</a>
               </Link>
             </li>
@@ -73,10 +63,10 @@ export default class Index extends React.Component {
 
   renderAddShowForm () {
     return (
-      <div>
+      <React.Fragment>
         <input type='text' onChange={this.handleShowNameChange} value={this.state.showName} />
         <button onClick={this.handleAddShowClick}>Add Show</button>
-      </div>
+      </React.Fragment>
     )
   }
 

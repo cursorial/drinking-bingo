@@ -29,7 +29,8 @@
     "pg": "^7.4.3",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
-    "standard": "^11.0.1"
+    "standard": "^11.0.1",
+    "standardjs": "^1.0.0-alpha"
   },
   "engines": {
     "node": "8.11.4",
