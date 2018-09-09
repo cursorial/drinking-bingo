@@ -68,6 +68,7 @@ app
     server.post('/seasons_index', async (req, res) => {
       let selectedShow = req.param('show', null)
       const result = await queryDatabase('SELECT * FROM season WHERE show_id = $1', [selectedShow])
+      console.log(result)
       sendDataToClient(res, {
         seasons: result.rows
       })
