@@ -75,7 +75,6 @@ export default class Index extends React.Component {
       <div>
         <NavigationBar />
         <h3>Drinking Bingo!</h3>
-        {this.renderShowAddedStatus()}
         {this.renderShows()}
         {this.renderAddShowForm()}
       </div>
